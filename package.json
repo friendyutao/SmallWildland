@@ -1,0 +1,27 @@
+{
+  "name": "SmallWildland",
+  "version": "1.0.0",
+  "description": "SmallWildland is a multiplayer online H5 game.",
+  "main": "entities.js",
+  "scripts": {
+    "test": "node --inspect server.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "friendyutao",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.10",
+    "socket.io": "^2.1.1"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/friendyutao/SmallWildland.git"
+  },
+  "bugs": {
+    "url": "https://github.com/friendyutao/SmallWildland/issues"
+  },
+  "homepage": "https://github.com/friendyutao/SmallWildland#readme"
+}

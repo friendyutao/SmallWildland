@@ -1,0 +1,203 @@
+'use strict'
+
+const { Vector, Polygon, Rect, Circle } = require('./geometry.js');
+const WeaponsMap = require('./WeaponsMap');
+const { moveMixin, } = require('./mix.js');
+
+class Player {
+  constructor(playerData = Player.getInitialData()) {
+    Object.assign(this,  playerData);
+    this.weapons = this.weapons.map(weaponName => new (WeaponsMap.get(weaponName)));
+    this.weapon = this.weapons[this.weaponSelection];
+    this.controls = [];
+    this.actions = [];
+    this.loginTime = new Date();
+  }
+  get position() {
+    return this.space.position;
+  }
+  updateControl(controls) {
+    if (Array.isArray(controls)) {
+      this.controls.push(...controls);
+    }
+  }
+  updateImgXY() {
+    if (this.speed.length == 0) {
+      this.imgXY.x = 0;
+    } else {
+      this.imgXY.y = (Math.abs(this.speed.x) > Math.abs(this.speed.y)) ? (this.speed.x > 0 ? 2 : 1) : (this.speed.y > 0 ? 0 : 3);
+      this.updateImgXYCycle === undefined ? (this.updateImgXYCycle = 0) : (this.updateImgXYCycle++);
+      if (this.updateImgXYCycle > 4) {
+        this.updateImgXYCycle = 0;
+        this.imgXY.x = ++this.imgXY.x % 4;
+      }
+    }
+  }
+  act(time, view) {
+    this.updateImgXY();
+    this.actions = [];
+    this.controls.forEach(control => {
+      const act = control.type;
+      if (typeof this[act] != 'function') return;
+      let action;
+      switch(act) {
+        case 'changeDirection':
+          action = this[act](Number(control.direction) || 0);
+          break;
+        case 'say':
+          action = this[act](String(control.saying));
+          break;
+        case 'pick':
+          action = this[act](view);
+          break;
+        default:
+          action = this[act]();
+          break;
+      }
+      action && this.actions.push(action);
+    });
+    this.controls.length = 0;
+
+    view.affectors.forEach(affector => {
+      if (affector.space.overlap(this.space) && affector.from !== this) {
+        affector.affect(this, time);
+      }
+    });
+
+    this.move(time);
+    if ([...view.obstacles, ...view.actors].some(obj => (obj.space.overlap(this.space) && obj !== this))) {
+      [...view.obstacles].some(obj => (obj.space.overlap(this.space)));
+      this.moveBack(time);
+    }
+
+    return this.actions;
+  }
+
+  changeDirection(direction) {
+    this.direction = direction;
+    const moveSpeed = this.maxSpeed / 2 + this.maxSpeed / 2 * (this.energe / this.maxEnerge);
+    this.speed = new Vector(moveSpeed * Math.cos(this.direction), moveSpeed * Math.sin(this.direction));
+  }
+  stopMoving() {
+    this.speed = new Vector(0, 0);
+  }
+  say(saying) {
+    this.saying = saying;
+    setTimeout( () => {
+      this.saying == saying && (this.saying = '');
+    }, 2000);
+  }
+  changeWeapon() {
+    this.weaponSelection++;
+    if (this.weaponSelection >= this.weapons.length) {
+      this.weaponSelection = 0;
+    }
+  }
+
+  // these actions require the scene action agent
+  pick(view) {
+    const item = view.items.find(item => {
+      return this.space.overlap(item.space);
+    });
+    if (! item) return;
+    switch(item.type) {
+      case 'weapon':  
+        if (this.weapons.length >= this.maxWeapon) {
+          return { type: 'showAsides', content: 
+                'You can mostly have only ${this.maxWeapon} weapons at the same time\n' +
+                '（你最多可以同时拥有${this.maxWeapon}个武器）'
+          };
+        } else {
+          this.weapons.push(item);
+          if (this.weapons.length == 1) {
+            this.weaponSelection = 0;
+          }
+          return { type: 'pick', items: [item] };
+        }
+        break;
+      case 'potion': 
+        this.items.push(item);
+        return { type: 'pick', items: [item] };
+        break;
+    }
+  }
+  fire() {
+    if (this.weapons[this.weaponSelection]) {
+      const affectors = this.weapons[this.weaponSelection].fire.call(this);
+      if (affectors && affectors.length > 0) {
+        return { type: 'fire', affectors: affectors };
+      }
+    } else {
+      return { type: 'showAsides', content: 
+        'You have no weapon to use. （你没有武器可用）\n' +
+        'find a weapon an press "p" to pick it up. （找到一个武器并按“p”捡起来）\n'
+      };
+    }
+  }
+  dropWeapon() {
+    if (! this.weapons[this.weaponSelection]) return;
+    this.weapons[this.weaponSelection].space.position = this.space.position.plus(this.speed.scale(0.2));
+    const dropped = this.weapons.splice(this.weaponSelection, 1);
+    if (this.weaponSelection >= this.weapons.length) {
+      this.weaponSelection = 0;
+    }
+    return { type: 'drop', items: dropped }
+  }
+  packUp() {
+    this._pack =   {
+      name: this.name,
+      img: this.img,
+      imgXY: this.imgXY,
+      layer: this.layer,
+      position: this.space.position,
+      standPoint: this.standPoint,        // space.position relative to image left top corner
+      border: this.space.toPolygon().vertexes,
+      sightScale: this.sightScale,
+
+      maxHealth: this.maxHealth,
+      maxEnerge: this.maxEnerge,
+      health : this.health,
+      energe: this.energe,
+      saying: this.saying,
+    }
+    return this._pack;
+  }
+  get pack() {
+    return this._pack;
+  }
+}
+moveMixin(Player.prototype);
+
+Player.getInitialData = function() {
+  const playerNum = Math.floor(Math.random() * 10);
+  const initialX = Math.random() * 640;
+  const initialY = Math.random() * (640 - 510) + 510;
+  return {
+    sceneBackgroundImg: 'scenes/introduction.png',
+    name: '鱼是乎',
+    img: 'players/' + playerNum + '.png',
+    imgXY: { x: 0, y: 0 },
+    standPoint: { x: 16, y: 43 },
+    space: new Rect(new Vector(initialX, initialY), 8, 4),
+    layer: 0,
+
+    sightScale: 1,
+    maxHealth: 20,
+    maxEnerge: 20, 
+    maxSpeed: 150,
+    maxWeapon: 3,
+    weapons: ['PinkScratch', 'Pistol', 'BlueShockwave' ],
+    potions: [],
+
+    health: 18,
+    energe: 18, 
+    saying: '',
+    speed: new Vector(0, 0), 
+    direction: 0,
+    weaponSelection: 0,
+    potionSelection: 0,
+  }
+}
+
+
+module.exports = Player;

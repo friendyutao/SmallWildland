@@ -1,0 +1,29 @@
+<head>
+  <script src='/socket.io/socket.io.js'> </script>
+  <script> const socket = io(); </script >
+</head>
+
+<body>
+  <script src='./elt.js'> </script>
+  <script src='./makeLoginDivFor.js'> </script>
+  <script src= './trackControlStateIn.js'> </script>
+  <script src='./Scene.js'> </script>   
+  <script>
+//  global 
+const gameViewport = { width: 640, height: 360 };
+const gameCanvas = elt('canvas', { width: gameViewport.width, height: gameViewport.height, style: `position: absolute; top: 0; left: 0`});
+const gameDiv = elt('div', { tabIndex: 0, style: `position: absolute; top: ${window.innerHeight / 2 - gameViewport.height / 2}px; left: ${window.innerWidth / 2 - gameViewport.width / 2}px; width: ${gameViewport.width}px; height: ${gameViewport.height}px; border: 1px solid #000000; text-align: center`, });
+gameDiv.appendChild(gameCanvas);
+trackControlStateIn(gameDiv);
+document.body.appendChild(gameDiv);
+const loginDiv = makeLoginDivFor('小荒原（Small Wildland）', gameDiv);
+document.body.appendChild(loginDiv);
+const scene = new Scene(gameCanvas);
+socket.on('syncFrame', ({scenePack, playerPack}) => {
+  scene.updateState(scenePack);
+  scene.updateViewport(playerPack);
+  scene.draw();
+});
+
+  </script>
+</body>
