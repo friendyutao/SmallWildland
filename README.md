@@ -1,10 +1,12 @@
-### SmallWildland (小荒原) (http:miniprogram.wiki)
+### SmallWildland 
+
+[Play](http:miniprogram.wiki)
 
 SmallWildland is a multiplayer online H5 game.
 
 > Thanks to kind bro Sithjester's RPG Maker XP resources (http://untamed.wild-refuge.net/rpgxp.php)， which contributed to the game a lot.
 
-### 小荒原 (SmallWildland) 
+### 小荒原 
 
 "小荒原"是一个多人在线 H5 游戏。
 
