@@ -1,4 +1,4 @@
-### SmallWildland (小荒原)
+### SmallWildland (小荒原) (http:miniprogram.wiki)
 
 SmallWildland is a multiplayer online H5 game.
 
