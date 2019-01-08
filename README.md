@@ -23,3 +23,5 @@ SmallWildland is a multiplayer online H5 game.
 > j k l 使用，切换， 丢下武器。
 
 > u i o 使用，切换， 丢下药剂。
+
+> 提示：第一个场景中要对上河边女子的诗，按空格说话，答案在房子里的箱子里。
