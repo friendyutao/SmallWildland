@@ -1,6 +1,6 @@
 ### SmallWildland 
 
-[Play](http:miniprogram.wiki)
+[Play](http://www.smallwildland.com)
 
 SmallWildland is a multiplayer online H5 game.
 
