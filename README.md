@@ -8,13 +8,17 @@ SmallWildland is a multiplayer online H5 game.
 
 ### 小荒原 
 
+[进入游戏](http://www.smallwildland.com)
+
 "小荒原"是一个多人在线 H5 游戏。
 
 > 其中很多游戏素材来自于这位 [Sithjester 老哥的免费游戏素材网站](http://untamed.wild-refuge.net/rpgxp.php)。
 
 > w a s d q e z x 移动。
 
-> 空格键说话，p 键捡东西。
+> 空格键说话， 此外 v, n 可分别用于快速回答选项 '>a', '>b'
+
+> p 键捡东西。
 
 > j k l 使用，切换， 丢下武器。
 
