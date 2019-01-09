@@ -12,7 +12,7 @@ SmallWildland is a multiplayer online H5 game.
 
 "小荒原"是一个多人在线 H5 游戏。
 
-> 其中很多游戏素材来自于这位 [Sithjester 老哥的免费游戏素材网站](http://untamed.wild-refuge.net/rpgxp.php)。
+> 其中很多游戏图片素材来自于这位 [Sithjester 老哥的免费游戏素材网站](http://untamed.wild-refuge.net/rpgxp.php)。
 
 > w a s d q e z x 移动。
 
