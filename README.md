@@ -4,7 +4,7 @@
 
 SmallWildland is an online H5 multiplayer game written in pure JavaScript.
 
-> Thanks to kind bro [Sithjester's RPG Maker XP resources](http://untamed.wild-refuge.net/rpgxp.php)， which contributed to the game a lot.
+> Thanks to kind bro [Sithjester's RPG Maker XP resources](http://untamed.wild-refuge.net/rpgxp.php)， which contributed to the game's picture resource a lot.
 
 ### 小荒原 
 
