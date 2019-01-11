@@ -25,3 +25,8 @@ SmallWildland is an online H5 multiplayer game written in pure JavaScript.
 > u i o 使用，切换， 丢下药剂。
 
 > 提示：游戏首次进入的地方若对上河边女子的诗，她会给一只鸟作为坐骑，就能飞越河了（按空格说话，答案在房子里的箱子里），莲花座会将玩家传送到其他地点。
+
+
+### License
+
+The SmallWildland project is released under the [MIT](https://opensource.org/licenses/MIT) license. See LICENSE file.
