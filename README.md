@@ -2,7 +2,7 @@
 
 [Play](http://www.smallwildland.com)
 
-SmallWildland is a multiplayer online H5 game.
+SmallWildland is an online H5 multiplayer game written in pure JavaScript.
 
 > Thanks to kind bro [Sithjester's RPG Maker XP resources](http://untamed.wild-refuge.net/rpgxp.php)， which contributed to the game a lot.
 
@@ -10,7 +10,7 @@ SmallWildland is a multiplayer online H5 game.
 
 [进入游戏](http://www.smallwildland.com)
 
-"小荒原"是一个多人在线 H5 游戏。
+"小荒原"是一个多人在线 H5 游戏, 原生 JavaScript 写的。
 
 > 其中很多游戏图片素材来自于这位 [Sithjester 老哥的免费游戏素材网站](http://untamed.wild-refuge.net/rpgxp.php)。
 
